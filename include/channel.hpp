@@ -18,6 +18,8 @@ public:
     bool removeClient(Client* client);
     bool makeOperator(Client* client);
     bool removeOperator(Client* client);
+    bool kickClient(Client* client);
+    bool joinChannel(Client* client);
     std::string getClientList() const;
     std::string getOperatorList() const;
     bool isEmpty() const;
