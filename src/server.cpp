@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:48 by root              #+#    #+#             */
-/*   Updated: 2023/04/19 17:25:49 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/19 23:29:31 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void	Server::recvmessage(struct pollfd &sock)
 		std::cerr << "some error appeared" << std::endl;
 		return ;
 	}
+	std::cout << "Received message: " << buffer << std::endl;
 	debugparsing(parsemessage(sock, buffer));
 }
 
@@ -117,7 +118,6 @@ std::vector<std::string>	Server::parsemessage(struct pollfd &sock, char *buffer)
 		{
 			if (!(tmp.length() > 0))
 				continue ;
-			std::cout << "i'll take this : " << tmp << std::endl;
 			ret.push_back(tmp);
 			tmp.clear();
 		}
@@ -125,7 +125,6 @@ std::vector<std::string>	Server::parsemessage(struct pollfd &sock, char *buffer)
 		{
 			if (!(ret.size() > 0))
 				continue;
-			std::cout << "I'll send this" <<std::endl;
 			debugparsing(ret);
 			if (!messageexecuter(sock, ret))
 				return ret;
@@ -141,22 +140,32 @@ std::vector<std::string>	Server::parsemessage(struct pollfd &sock, char *buffer)
 
 int	Server::messageexecuter(struct pollfd &sock, std::vector<std::string> token)
 {
-	std::map<std::string, void(*)(struct pollfd,  Server &, std::vector<std::string>)>::iterator	it;
+	std::map<std::string, int(*)(struct pollfd,  Server &, std::vector<std::string>)>::iterator	it;
 	it = commands.find(token[0]);
 	if (it == commands.end())
 	{
 		Messages::error(sock, *this, util::msgCreator("ERROR", "This command unavailable."));
-		return 1;
+		return 0;
 	}
 	std::vector<Clients>::iterator it2 = util::findclient(getclient(), sock);
-	if (token[0] != "PASS" && token[0] != "CAP" && (*it2).isconfirmed() == false)
+	if (token[0] != "PASS" && token[0] != "CAP" && !(*it2).isconfirmed())
 	{
 		Messages::error(sock, *this, util::msgCreator("ERROR", "This user not confirmed."));
 		Messages::quit(sock, *this, util::msgCreator("QUIT", "Disconnecting()"));
-		return 1;
+		return 0;
 	}
-	it->second(sock, *this, token);
-	return (0);
+	if (!(*it2).isregistered())
+	{
+		if (token[0] != "NICK" && token[0] != "USER" && token[0] != "PASS" && token[0] != "CAP")
+		{
+			Messages::error(sock, *this, util::msgCreator("ERROR", "This user not registered."));
+			Messages::quit(sock, *this, util::msgCreator("QUIT", "Disconnecting()"));
+			return 0;
+		}
+	}
+	if (it->second(sock, *this, token))
+		return 0;
+	return (1);
 }
 
 void	Server::sendmessage(struct pollfd &sock, std::string str)

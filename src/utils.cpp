@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 18:53:18 by root              #+#    #+#             */
-/*   Updated: 2023/04/19 16:10:09 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/19 23:25:54 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ std::vector<struct pollfd>::iterator	util::findsocket(std::vector<struct pollfd>
 	return (ret);
 }
 
-std::map <std::string, void(*)(struct pollfd,  Server &, std::vector<std::string>)> Messages::fillcommands(){
-	std::map <std::string, void(*)(struct pollfd,  Server &, std::vector<std::string>)> ret;
+std::map <std::string, int(*)(struct pollfd,  Server &, std::vector<std::string>)> Messages::fillcommands(){
+	std::map <std::string, int(*)(struct pollfd,  Server &, std::vector<std::string>)> ret;
 	ret["NICK"] = &Messages::nick;
 	ret["ERROR"] = &Messages::error;
 	ret["PASS"] = &Messages::pass;
 	ret["CAP"] = &Messages::cap;
 	ret["QUIT"] = &Messages::quit;
-	//ret["USER"] = &Messages::user;
+	ret["USER"] = &Messages::user;
 	return ret;
 }
 

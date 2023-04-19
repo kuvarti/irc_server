@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:53 by root              #+#    #+#             */
-/*   Updated: 2023/04/19 17:04:22 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/19 23:27:15 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,15 @@ class Server;
 
 class Messages{
 public:
-	static std::map<std::string, void(*)(struct pollfd,  Server &, std::vector<std::string>)> fillcommands();
+	static std::map<std::string, int(*)(struct pollfd,  Server &, std::vector<std::string>)> fillcommands();
 
-	static int	runner(struct pollfd,  Server &, std::vector<std::string>, void(*)(struct pollfd,  Server &, std::vector<std::string>));
-	//static void	user(struct pollfd,  Server &, std::vector<std::string>);
 	//static void	join(struct pollfd,  Server &, std::vector<std::string>);
-	static void	nick(struct pollfd,  Server &, std::vector<std::string>);
-	static void	error(struct pollfd,  Server &, std::vector<std::string>);
-	static void	pass(struct pollfd,  Server &, std::vector<std::string>);
-	static void	cap(struct pollfd,  Server &, std::vector<std::string>);
-	static void	quit(struct pollfd,  Server &, std::vector<std::string>);
+	static int	user(struct pollfd,  Server &, std::vector<std::string>);
+	static int	nick(struct pollfd,  Server &, std::vector<std::string>);
+	static int	error(struct pollfd,  Server &, std::vector<std::string>);
+	static int	pass(struct pollfd,  Server &, std::vector<std::string>);
+	static int	cap(struct pollfd,  Server &, std::vector<std::string>);
+	static int	quit(struct pollfd,  Server &, std::vector<std::string>);
 };
 
 class Server{
@@ -68,5 +67,5 @@ private:
 	int				_sock;
 	std::vector<pollfd>		_socks;
 	std::vector<Clients>	_cli;
-	std::map<std::string, void(*)(struct pollfd,  Server &, std::vector<std::string>)> commands;
+	std::map<std::string, int(*)(struct pollfd,  Server &, std::vector<std::string>)> commands;
 };
