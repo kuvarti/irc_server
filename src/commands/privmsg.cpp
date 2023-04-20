@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:13:00 by kuvarti           #+#    #+#             */
-/*   Updated: 2023/04/20 14:24:45 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/20 14:50:57 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int Messages::privmsg(struct pollfd sock,  Server &srv, std::vector<std::string>
 			Messages::error(sock, srv, util::msgCreator("ERROR", "401", "No Such Nickname"));
 			return 1;
 		}
+		//fix there later
 		srv.sendmessage(*(*it2).getclient(), util::msgSender(util::msgCreator("PRIVMSG", token[1], token[2].substr(1))));
 	}
 	return 0;

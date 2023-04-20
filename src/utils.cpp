@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 18:53:18 by root              #+#    #+#             */
-/*   Updated: 2023/04/20 14:27:08 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/20 14:29:01 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ std::map <std::string, int(*)(struct pollfd,  Server &, std::vector<std::string>
 	ret["CAP"] = &Messages::cap;
 	ret["QUIT"] = &Messages::quit;
 	ret["USER"] = &Messages::user;
-	//ret["PRIVMSG"] = &Messages::privmsg;
+	ret["PRIVMSG"] = &Messages::privmsg;
 	return ret;
 }
 
