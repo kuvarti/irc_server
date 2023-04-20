@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 18:53:18 by root              #+#    #+#             */
-/*   Updated: 2023/04/19 23:25:54 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/20 14:27:08 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ std::map <std::string, int(*)(struct pollfd,  Server &, std::vector<std::string>
 	ret["CAP"] = &Messages::cap;
 	ret["QUIT"] = &Messages::quit;
 	ret["USER"] = &Messages::user;
+	//ret["PRIVMSG"] = &Messages::privmsg;
 	return ret;
 }
 
@@ -48,6 +49,16 @@ std::string	util::msgSender(std::vector<std::string> vc)
 std::vector<std::string>	util::msgCreator(std::string prefix, std::string msg)
 {
 	std::vector<std::string>	ret;
+	ret.push_back(prefix);
+	msg = ":" + msg;
+	ret.push_back(msg);
+	return ret;
+}
+
+std::vector<std::string>	util::msgCreator(std::string prefix, std::string errcode, std::string msg)
+{
+	std::vector<std::string>	ret;
+	ret.push_back(":irc.kuvarti.com " + errcode);
 	ret.push_back(prefix);
 	msg = ":" + msg;
 	ret.push_back(msg);

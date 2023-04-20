@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 00:04:18 by root              #+#    #+#             */
-/*   Updated: 2023/04/19 22:23:57 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/20 14:18:21 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ public:
 	void	setnickname(std::string nick) { _nickname = nick; }
 
 	int			getclientsock() const { return _client.fd; };
+	struct pollfd	*getclient() { return &_client; };
 	std::string	getnickname() { return _nickname; };
 
 	bool	isconfirmed() const { return confirmed; };
@@ -55,8 +56,8 @@ private:
 	bool				confirmed;
 	bool				registered;
 	bool				serverop;
-	std::string			_nickname;
 	struct pollfd		_client;
 	struct sockaddr_in	clientaddr;
+	std::string			_nickname;
 	userinf				_userinf;
 };

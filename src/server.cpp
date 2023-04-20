@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:48 by root              #+#    #+#             */
-/*   Updated: 2023/04/19 23:29:31 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/20 14:10:37 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,22 +144,22 @@ int	Server::messageexecuter(struct pollfd &sock, std::vector<std::string> token)
 	it = commands.find(token[0]);
 	if (it == commands.end())
 	{
-		Messages::error(sock, *this, util::msgCreator("ERROR", "This command unavailable."));
+		Messages::error(sock, *this, util::msgCreator("ERROR", "421", "This command unavailable."));
 		return 0;
 	}
 	std::vector<Clients>::iterator it2 = util::findclient(getclient(), sock);
 	if (token[0] != "PASS" && token[0] != "CAP" && !(*it2).isconfirmed())
 	{
-		Messages::error(sock, *this, util::msgCreator("ERROR", "This user not confirmed."));
-		Messages::quit(sock, *this, util::msgCreator("QUIT", "Disconnecting()"));
+		Messages::error(sock, *this, util::msgCreator("ERROR", "464", "This user not confirmed."));
+		Messages::quit(sock, *this, util::msgCreator(" QUIT", "Disconnecting()"));
 		return 0;
 	}
 	if (!(*it2).isregistered())
 	{
 		if (token[0] != "NICK" && token[0] != "USER" && token[0] != "PASS" && token[0] != "CAP")
 		{
-			Messages::error(sock, *this, util::msgCreator("ERROR", "This user not registered."));
-			Messages::quit(sock, *this, util::msgCreator("QUIT", "Disconnecting()"));
+			Messages::error(sock, *this, util::msgCreator("ERROR", "451", "This user not registered."));
+			Messages::quit(sock, *this, util::msgCreator(" QUIT", "Disconnecting()"));
 			return 0;
 		}
 	}

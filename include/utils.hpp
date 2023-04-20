@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 18:44:04 by root              #+#    #+#             */
-/*   Updated: 2023/04/19 20:28:28 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/20 14:05:24 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ public:
 	static	std::vector<Clients>::iterator	findclient(std::vector<Clients> &, const struct pollfd &);
 	static	std::vector<Clients>::iterator	findnick(std::vector<Clients> &, std::string);
 
+	static	std::vector<std::string>	msgCreator(std::string, std::string, std::string);
 	static	std::vector<std::string>	msgCreator(std::string, std::string);
 	static	std::string	msgSender(std::vector<std::string>);
 };

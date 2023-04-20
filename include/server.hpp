@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:53 by root              #+#    #+#             */
-/*   Updated: 2023/04/19 23:27:15 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/20 14:12:08 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ public:
 	static int	pass(struct pollfd,  Server &, std::vector<std::string>);
 	static int	cap(struct pollfd,  Server &, std::vector<std::string>);
 	static int	quit(struct pollfd,  Server &, std::vector<std::string>);
+	static int	privmsg(struct pollfd,  Server &, std::vector<std::string>);
 };
 
 class Server{
