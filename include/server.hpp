@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:53 by root              #+#    #+#             */
-/*   Updated: 2023/04/21 18:41:58 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/21 19:15:30 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ public:
 	static int	whois(struct pollfd,  Server &, std::vector<std::string>);
 	static int	ping(struct pollfd,  Server &, std::vector<std::string>);
 	static int	pong(struct pollfd,  Server &, std::vector<std::string>);
+	static int	rpass(struct pollfd,  Server &, std::vector<std::string>);
 };
 
 class Server{
@@ -68,6 +69,8 @@ public:
 	std::vector<Clients> &getclient() { return _cli; }
 
 	std::string	getpass() const { return _password; }
+	void	setpass(std::string pass) { _password = pass; }
+
 	void	removesock(struct pollfd &);
 
 	bool	isop(std::string);

@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:48 by root              #+#    #+#             */
-/*   Updated: 2023/04/21 18:44:11 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/21 19:20:43 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int	Server::messageexecuter(struct pollfd &sock, std::vector<std::string> token)
 	if (token[0] != "PASS" && token[0] != "CAP" && !(*it2).isconfirmed())
 	{
 		Messages::error(sock, *this, util::msgCreator("ERROR", "464", "This user not confirmed."));
-		Messages::quit(sock, *this, util::msgCreator(" QUIT", "Disconnecting()"));
+		Messages::quit(sock, *this, util::msgCreator(" SQUIT", "Disconnecting()"));
 		return 0;
 	}
 	if (!(*it2).isregistered())
@@ -162,7 +162,7 @@ int	Server::messageexecuter(struct pollfd &sock, std::vector<std::string> token)
 		if (token[0] != "NICK" && token[0] != "USER" && token[0] != "PASS" && token[0] != "CAP")
 		{
 			Messages::error(sock, *this, util::msgCreator("ERROR", "451", "This user not registered."));
-			Messages::quit(sock, *this, util::msgCreator(" QUIT", "Disconnecting()"));
+			Messages::quit(sock, *this, util::msgCreator(" SQUIT", "Disconnecting()"));
 			return 0;
 		}
 	}
@@ -199,11 +199,12 @@ void	Server::removesock(struct pollfd &sock)
 bool	Server::isop(std::string name)
 {
 	std::vector<std::string>::iterator it;
-	it = std::find(ops.begin(), ops.end(), name);
-	if (it == ops.end())
-		return false;
-	else
-		return true;
+	for (it = ops.begin(); it != ops.end(); it++)
+	{
+		if (*it == name)
+			return true;
+	}
+	return false;
 }
 
 Server::~Server()
