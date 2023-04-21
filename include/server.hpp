@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:53 by root              #+#    #+#             */
-/*   Updated: 2023/04/21 12:33:14 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/21 14:09:16 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ public:
 	static int	cap(struct pollfd,  Server &, std::vector<std::string>);
 	static int	quit(struct pollfd,  Server &, std::vector<std::string>);
 	static int	privmsg(struct pollfd,  Server &, std::vector<std::string>);
+	static int	whois(struct pollfd,  Server &, std::vector<std::string>);
 };
 
 class Server{
@@ -73,7 +74,8 @@ private:
 
 //	RPL
 #define RPL_WELCOME(source)						"001 " + source + " :Welcome " + source + " to the ft_irc network"
-#define RPL_PRIVMSG(source, target, message)		":" + source + " PRIVMSG " + target + " :" + message
+#define RPL_PRIVMSG(source, target, message)	":" + source + " PRIVMSG " + target + " :" + message
+#define RPL_WHOIS(target, message)				"whois " + target + ":" + message
 
 //	Errors
 #define ERR_UNKNOWNCOMMAND(source, command)		"421 " + source + " " + command + " :Unknown command"

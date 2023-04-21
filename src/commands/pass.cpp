@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:14:31 by kuvarti           #+#    #+#             */
-/*   Updated: 2023/04/20 14:07:37 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/21 13:48:01 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	Messages::pass(struct pollfd sock, Server &srv, std::vector<std::string> tok
 		return 1;
 	if (token[1] != srv.getpass())
 	{
-		Messages::error(sock, srv, util::msgCreator(" ERROR", "464","incorrect Password."));
+		Messages::error(sock, srv, util::msgCreator(" 464 ERROR", "incorrect Password."));
 		Messages::quit(sock, srv, util::msgCreator(" QUIT", "Disconnecting()"));
 		return 1;
 	}
