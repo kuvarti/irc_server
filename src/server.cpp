@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:48 by root              #+#    #+#             */
-/*   Updated: 2023/04/20 14:10:37 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/21 17:54:14 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,22 @@
 //*	Can be delete this \/ \/
 void	debugparsing(std::vector<std::string> str)
 {
-	int j = 0;
-	if (str.size() > 0)
-		std::cout << "Parsed messages; " << std::endl;
+	std::cout << std::endl;
 	for (std::vector<std::string>::iterator i = str.begin(); i < str.end(); i++)
 	{
-		std::cout << j++ << ". : " << (*i) << std::endl;
+		std::cout << (*i) << " ";
 	}
-	if (str.size() > 0)
-		std::cout << "-=-=-=-=-=-=-=-" << std::endl;
 }
 void	showclients(std::vector<Clients> &cli )
 {
-	std::cout << std::endl << "Clients:" << std::endl;
+	std::cout << std::endl << "\rActive clients:" << std::endl;
 	for (size_t i = 0; i < cli.size(); i++)
 	{
 		std::cout << "Client " << i << " nickname: " << cli[i].getnickname() << std::endl;
 	}
-	std::cout << "------------" << std::endl;
+	if (!cli.size())
+		std::cout << "*- none -*" << std::endl;
+	std::cout << "------- "<< "Clients & Port are listening..." << " ------" << std::endl;
 }
 //*	Can be delete this /\ /\
 
@@ -83,6 +81,7 @@ void	Server::loop()
 					_cli.push_back(*tmp);
 					_socks.push_back((pollfd){(*tmp).getclientsock(), POLLIN, 0});
 					std::cout << "New Connection appeared." << std::endl;
+					delete tmp;
 				}
 				else
 					recvmessage(_socks[i]);
@@ -104,8 +103,11 @@ void	Server::recvmessage(struct pollfd &sock)
 		std::cerr << "some error appeared" << std::endl;
 		return ;
 	}
-	std::cout << "Received message: " << buffer << std::endl;
+	if (!DEBUGMOD)
+		system("clear");
+	std::cout << "Received message from: " << util::findclient(this->getclient(), sock)->getnickname();
 	debugparsing(parsemessage(sock, buffer));
+	std::cout << "-=-=-=-=-=-=-=-" << std::endl;
 }
 
 std::vector<std::string>	Server::parsemessage(struct pollfd &sock, char *buffer)

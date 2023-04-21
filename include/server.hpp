@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:53 by root              #+#    #+#             */
-/*   Updated: 2023/04/21 14:33:58 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/21 17:47:07 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@
 #include "clients.hpp"
 
 #define BSIZE 512
+#define DEBUGMOD 1
 class Channel;
 class Server;
+
+std::vector<std::string> getops();
 
 class Messages{
 public:
@@ -69,8 +72,9 @@ public:
 private:
 	std::string		_password;
 	int				_sock;
-	std::vector<pollfd>		_socks;
-	std::vector<Clients>	_cli;
+	std::vector<std::string>	ops;
+	std::vector<pollfd>			_socks;
+	std::vector<Clients>		_cli;
 	std::map<std::string, int(*)(struct pollfd,  Server &, std::vector<std::string>)> commands;
 };
 
