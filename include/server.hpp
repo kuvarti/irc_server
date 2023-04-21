@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:53 by root              #+#    #+#             */
-/*   Updated: 2023/04/21 14:09:16 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/21 14:33:58 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ public:
 	static int	quit(struct pollfd,  Server &, std::vector<std::string>);
 	static int	privmsg(struct pollfd,  Server &, std::vector<std::string>);
 	static int	whois(struct pollfd,  Server &, std::vector<std::string>);
+	static int	ping(struct pollfd,  Server &, std::vector<std::string>);
+	static int	pong(struct pollfd,  Server &, std::vector<std::string>);
 };
 
 class Server{
