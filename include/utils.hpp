@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 18:44:04 by root              #+#    #+#             */
-/*   Updated: 2023/04/20 14:05:24 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/21 12:34:56 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ public:
 	static	std::vector<std::string>	msgCreator(std::string, std::string, std::string);
 	static	std::vector<std::string>	msgCreator(std::string, std::string);
 	static	std::string	msgSender(std::vector<std::string>);
+	static	std::string	msgSender(std::vector<std::string>, int start);
 };
 
 int	operator<<(std::vector<struct pollfd> &, const struct pollfd &);

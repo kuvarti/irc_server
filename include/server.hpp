@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:53 by root              #+#    #+#             */
-/*   Updated: 2023/04/20 14:29:15 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/21 12:33:14 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,3 +70,14 @@ private:
 	std::vector<Clients>	_cli;
 	std::map<std::string, int(*)(struct pollfd,  Server &, std::vector<std::string>)> commands;
 };
+
+//	RPL
+#define RPL_WELCOME(source)						"001 " + source + " :Welcome " + source + " to the ft_irc network"
+#define RPL_PRIVMSG(source, target, message)		":" + source + " PRIVMSG " + target + " :" + message
+
+//	Errors
+#define ERR_UNKNOWNCOMMAND(source, command)		"421 " + source + " " + command + " :Unknown command"
+#define ERR_NEEDMOREPARAMS(source, command)		"461 " + source + " " + command + " :Not enough parameters"
+#define ERR_PASSWDMISMATCH(source)				"464 " + source + " :Password incorrect"
+#define ERR_NICKNAMEINUSE(source)				"433 " + source + " " + source  + " :Nickname is already in use"
+#define ERR_NOTREGISTERED(source)				"451 " + source + " :You have not registered"

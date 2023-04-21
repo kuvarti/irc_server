@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 18:53:18 by root              #+#    #+#             */
-/*   Updated: 2023/04/20 14:29:01 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/21 12:36:29 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,15 @@ std::string	util::msgSender(std::vector<std::string> vc)
 	std::string	ret;
 
 	for (std::vector<std::string>::iterator it = vc.begin(); it != vc.end(); it++)
+		ret += (*it) + " ";
+	return ret;
+}
+
+std::string	util::msgSender(std::vector<std::string> vs, int start)
+{
+	std::string	ret;
+
+	for (std::vector<std::string>::iterator it = vs.begin() + start; it != vs.end(); it++)
 		ret += (*it) + " ";
 	return ret;
 }
