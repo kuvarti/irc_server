@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:53 by root              #+#    #+#             */
-/*   Updated: 2023/04/21 17:47:07 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/21 18:41:58 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ public:
 
 	std::string	getpass() const { return _password; }
 	void	removesock(struct pollfd &);
+
+	bool	isop(std::string);
 private:
 	std::string		_password;
 	int				_sock;

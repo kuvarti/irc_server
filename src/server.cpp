@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:48 by root              #+#    #+#             */
-/*   Updated: 2023/04/21 17:54:14 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/21 18:44:11 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ Server::Server(int port, std::string pass) : _password(pass)
 	}
 	if (listen(_sock, 5) == -1)
 		exit(EXIT_FAILURE);
+	ops = getops();
 	commands = Messages::fillcommands();
 	_socks.push_back((pollfd){_sock, POLLIN | POLLOUT, POLLIN | POLLOUT});
 	std::cout << "Server running on port:" << port << std::endl;
@@ -193,6 +194,16 @@ void	Server::removesock(struct pollfd &sock)
 	std::vector<Clients>::iterator it2 = util::findclient(_cli, sock);
 	if (it2 != _cli.end())
 		_cli.erase(it2);
+}
+
+bool	Server::isop(std::string name)
+{
+	std::vector<std::string>::iterator it;
+	it = std::find(ops.begin(), ops.end(), name);
+	if (it == ops.end())
+		return false;
+	else
+		return true;
 }
 
 Server::~Server()

@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 00:04:18 by root              #+#    #+#             */
-/*   Updated: 2023/04/20 14:18:21 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/21 18:38:42 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ public:
 
 	template<typename T>
 	static	std::vector<Clients>::iterator	findnclient(std::vector<Clients> &, T(Clients::*)(void), T);
+
+	bool	isop() const { return serverop; };
+	void	setop(bool b) { serverop = b; };
 
 private:
 	bool				confirmed;
