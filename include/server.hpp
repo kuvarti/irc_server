@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:53 by root              #+#    #+#             */
-/*   Updated: 2023/04/22 18:30:23 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/22 18:39:26 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ public:
 	std::string	getpass() const { return _password; }
 	void	setpass(std::string pass) { _password = pass; }
 
-	void	insertfile(filet f) { _files.push_back(f); }
+	void	insertfile(filet *f) { _files.push_back(f); }
 	int		removefile();
 
 	void	removesock(struct pollfd &);
@@ -83,7 +83,7 @@ public:
 private:
 	std::string		_password;
 	int				_sock;
-	std::vector<filet>			_files;
+	std::vector<filet *>		_files;
 	std::vector<std::string>	ops;
 	std::vector<pollfd>			_socks;
 	std::vector<Clients>		_cli;
@@ -95,7 +95,7 @@ private:
 #define RPL_PRIVMSG(source, target, message)	":" + source + " PRIVMSG " + target + " : " + message
 #define RPL_WHOIS(target, message)				"whois " + target + ":" + message
 
-#define RPL_FILET(source, message)				"620 FileTransfer : " + source + " want to sen you a file :" + message
+#define RPL_FILET(source, message)				"FileTransfer : " + source + " wants to sen you a file :" + message
 
 //	Errors
 #define ERR_UNKNOWNCOMMAND(source, command)		"421 " + source + " " + command + " :Unknown command"

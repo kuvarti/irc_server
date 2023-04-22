@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:02:18 by kuvarti           #+#    #+#             */
-/*   Updated: 2023/04/22 18:30:21 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/22 18:39:36 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static int	flset(struct pollfd sock, Server &srv, std::vector<std::string> token)
 {
-	filet	tmp(&(*(util::findclient(srv.getclient(), sock))), &(*(util::findnick(srv.getclient(), token[2]))) , token[3]);
-	if (tmp.setfile(new std::fstream(token[3])))
+	filet	*tmp = new filet(&(*(util::findclient(srv.getclient(), sock))), &(*(util::findnick(srv.getclient(), token[2]))) , token[3]);
+	if (tmp->setfile(new std::fstream(token[3])))
 		return 1;
 	srv.insertfile(tmp);
 	srv.sendmessage(*(util::findnick(srv.getclient(), token[2])->getclient()), 
 		RPL_FILET(util::findclient(srv.getclient(), sock)->getnickname(), 
-		" /filet get " + util::findclient(srv.getclient(), sock)->getnickname() + " " + tmp.getFilename()));
+		" /filet get " + util::findclient(srv.getclient(), sock)->getnickname() + " " + tmp->getFilename()));
 	return 0;
 }
 
