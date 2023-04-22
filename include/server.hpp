@@ -15,7 +15,8 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <poll.h>
-
+#include <iostream>
+#include <sstream>
 #include <algorithm>
 #include <fcntl.h>
 #include <stdio.h>
@@ -29,6 +30,7 @@
 
 #include "utils.hpp"
 #include "clients.hpp"
+#include "channel.hpp"
 #include "ftransfer.hpp"
 
 #define BSIZE 512
