@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:53 by root              #+#    #+#             */
-/*   Updated: 2023/04/22 18:39:26 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/22 20:22:24 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,9 @@ public:
 	std::string	getpass() const { return _password; }
 	void	setpass(std::string pass) { _password = pass; }
 
+	std::vector<filet *>	&getfilet() { return _files; }
 	void	insertfile(filet *f) { _files.push_back(f); }
-	int		removefile();
+	int		removefile(std::vector<filet *>::iterator);
 
 	void	removesock(struct pollfd &);
 

@@ -14,4 +14,4 @@
 
 ### custom file transfer
 - /filet set [target] [filepath&filename]
-- /filet get [source] [filename]
+- /filet get [source] [filename] [pathdir]

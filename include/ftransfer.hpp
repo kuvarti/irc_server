@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 15:27:55 by kuvarti           #+#    #+#             */
-/*   Updated: 2023/04/22 18:13:26 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/22 19:46:06 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include <string>
 #include <fstream>
+#include <vector>
 class Clients;
 
 #define FILET_STATUS_WAITING	0
@@ -32,6 +33,8 @@ public:
 	Clients *		getTarget() const	{ return target;	}
 	std::string		getFilename() const	{ return filename;	}
 	std::string		getFilepath() const	{ return filepath;	}
+
+	static std::vector<filet *>::iterator	filetfinder(std::vector<filet *> &, Clients *, std::string);
 private:
 	int	status;
 	std::fstream	*_file;

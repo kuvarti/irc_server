@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:30:00 by kuvarti           #+#    #+#             */
-/*   Updated: 2023/04/22 18:14:24 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/22 20:26:03 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,21 @@ int	filet::setfile(std::fstream *s)
 		return 1;
 	else
 		return 0;
+}
+
+std::vector<filet *>::iterator	filet::filetfinder(std::vector<filet *> &vc, Clients *target, std::string filename)
+{
+	std::vector<filet *>::iterator	it = vc.begin();
+	for (; it != vc.end(); it++)
+	{
+		if ((*it)->getFilename() == filename && (*it)->getSource() == target)
+			break;
+	}
+	return it;
+}
+
+int	Server::removefile(std::vector<filet *>::iterator it)
+{
+	_files.erase(it);
+	return 1;
 }
