@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:53 by root              #+#    #+#             */
-/*   Updated: 2023/04/22 16:23:15 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/22 18:30:23 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 
 #include "utils.hpp"
 #include "clients.hpp"
+#include "ftransfer.hpp"
 
 #define BSIZE 512
 #define DEBUGMOD 1
@@ -41,7 +42,7 @@ class Messages{
 public:
 	static std::map<std::string, int(*)(struct pollfd,  Server &, std::vector<std::string>)> fillcommands();
 
-	//static void	join(struct pollfd,  Server &, std::vector<std::string>);
+	//static int	join(struct pollfd,  Server &, std::vector<std::string>);
 	static int	user(struct pollfd,  Server &, std::vector<std::string>);
 	static int	nick(struct pollfd,  Server &, std::vector<std::string>);
 	static int	error(struct pollfd,  Server &, std::vector<std::string>);
@@ -53,6 +54,7 @@ public:
 	static int	ping(struct pollfd,  Server &, std::vector<std::string>);
 	static int	pong(struct pollfd,  Server &, std::vector<std::string>);
 	static int	rpass(struct pollfd,  Server &, std::vector<std::string>);
+	static int	filet(struct pollfd,  Server &, std::vector<std::string>);
 };
 
 class Server{
@@ -72,12 +74,16 @@ public:
 	std::string	getpass() const { return _password; }
 	void	setpass(std::string pass) { _password = pass; }
 
+	void	insertfile(filet f) { _files.push_back(f); }
+	int		removefile();
+
 	void	removesock(struct pollfd &);
 
 	bool	isop(std::string);
 private:
 	std::string		_password;
 	int				_sock;
+	std::vector<filet>			_files;
 	std::vector<std::string>	ops;
 	std::vector<pollfd>			_socks;
 	std::vector<Clients>		_cli;
@@ -88,6 +94,8 @@ private:
 #define RPL_WELCOME(source)						"001 " + source + " :Welcome " + source + " to the ft_irc network"
 #define RPL_PRIVMSG(source, target, message)	":" + source + " PRIVMSG " + target + " : " + message
 #define RPL_WHOIS(target, message)				"whois " + target + ":" + message
+
+#define RPL_FILET(source, message)				"620 FileTransfer : " + source + " want to sen you a file :" + message
 
 //	Errors
 #define ERR_UNKNOWNCOMMAND(source, command)		"421 " + source + " " + command + " :Unknown command"
