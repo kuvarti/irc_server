@@ -32,6 +32,11 @@ class Clients{
 public:
 	Clients(int);
 	~Clients();
+	
+	// added by Bilal
+	void Clients::addChannelToClient(Channel* chan) {
+    	this->channels.push_back(chan);
+	}
 
 	void	setnickname(std::string nick) { _nickname = nick; }
 
@@ -56,6 +61,7 @@ public:
 	void	setop(bool b) { serverop = b; };
 
 private:
+	std::vector<Channel*> channels; // added by Bilal
 	bool				confirmed;
 	bool				registered;
 	bool				serverop;
