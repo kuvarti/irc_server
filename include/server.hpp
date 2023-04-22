@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:53 by root              #+#    #+#             */
-/*   Updated: 2023/04/21 19:15:30 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/22 16:23:15 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ public:
 	std::vector<std::string>	parsemessage(struct pollfd &, char *);
 
 	std::vector<Clients> &getclient() { return _cli; }
+	std::map<std::string, int(*)(struct pollfd,  Server &, std::vector<std::string>)> &getcommands() { return commands; }
 
 	std::string	getpass() const { return _password; }
 	void	setpass(std::string pass) { _password = pass; }
@@ -85,7 +86,7 @@ private:
 
 //	RPL
 #define RPL_WELCOME(source)						"001 " + source + " :Welcome " + source + " to the ft_irc network"
-#define RPL_PRIVMSG(source, target, message)	":" + source + " PRIVMSG " + target + " :" + message
+#define RPL_PRIVMSG(source, target, message)	":" + source + " PRIVMSG " + target + " : " + message
 #define RPL_WHOIS(target, message)				"whois " + target + ":" + message
 
 //	Errors

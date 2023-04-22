@@ -11,3 +11,7 @@
 
 ### custom OP Command
 - /RPASS pass
+
+### custom file transfer
+- /filet set [target] [filepath&filename]
+- /filet get [source] [filename]

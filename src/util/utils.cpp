@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 18:53:18 by root              #+#    #+#             */
-/*   Updated: 2023/04/21 19:15:58 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/22 12:10:44 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,13 @@ std::vector<std::string>	util::msgCreator(std::string prefix, std::string errcod
 	ret.push_back(prefix);
 	msg = ":" + msg;
 	ret.push_back(msg);
+	return ret;
+}
+
+std::vector<std::string>	util::split(std::vector<std::string> str, int start)
+{
+	std::vector<std::string> ret;
+	for (std::vector<std::string>::iterator it = str.begin() + start; it != str.end(); it++)
+		ret.push_back(*it);
 	return ret;
 }
