@@ -1,109 +1,72 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   channel.cpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/23 22:50:06 by kuvarti           #+#    #+#             */
+/*   Updated: 2023/04/23 22:50:06 by kuvarti          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "channel.hpp"
+#include "server.hpp"
 
-Channel::Channel(const std::string& name, const std::string& topic, Clients* creator) :
-    name_(name),
-    creator_(creator),
-    maxSize_(10)
+#define RMV_FLETTER(str) std::string(str.begin() + 1, str.end())
+
+Channel::Channel(std::string name, Clients *creator)
 {
-    topic_ = topic;
+	_creator = creator;
+	_ops.push_back(creator);
+	_name = name;
+	_topic = "Takling about " + name;
 }
 
-Channel::~Channel() {
-    for (std::vector<Clients*>::iterator it = clients_.begin(); it != clients_.end(); ++it) {
-        delete (*it);
-    }
-    clients_.clear();
-    operators_.clear();
-}
+Channel::~Channel()
+{ }
 
-void Channel::joinClient(Clients* client) {
-    bool clientExists = false;
-    for (std::vector<Clients*>::iterator it = clients_.begin(); it != clients_.end(); ++it) {
-        if ((*it) == client) {
-            clientExists = true;
-            break;
-        }
-    }
-    if (clientExists) {
-        return;
-    }
-    clients_.push_back(client);
-    std::string joinMsg = ":" + client->getnickname() + " JOIN " + name_ + "\r\n";
-    for (std::vector<Clients*>::iterator it = clients_.begin(); it != clients_.end(); ++it) {
-        write((*it)->getclient()->fd, joinMsg.c_str(), joinMsg.length());
-    }
-}
-
-void Channel::leaveClient(Clients* client) {
-    auto it = std::find(clients_.begin(), clients_.end(), client);
-    if (it != clients_.end()) {
-        clients_.erase(it);
-    }
-    operators_.erase(client);
-}
-
-void Channel::sendMsg(const std::string &message, Clients *sender) {
-    for (auto client : clients_) {
-        if (client != sender) {
-            client->getclient()->fd = client->getclientsock();
-            std::string response = ":" + sender->getnickname() + "!" + sender->getuserinf().username + "@" + sender->getuserinf().hostname + " " + message + "\r\n";
-            send(client->getclientsock(), response.c_str(), response.length(), 0);
-        }
-    }
-}
-
-Channel* Channel::getChannelByName(const std::string& name) {
-    for (std::vector<Channel>::iterator it = channels.begin(); it != channels.end(); ++it) {
-        if (it->name_ == name) {
-            return &(*it);
-        }
-    }
-    return nullptr;
-}
-
-
-const std::string& Channel::getName() const {
-    return name_;
-}
-
-void Channel::setName(const std::string& name)
+void	Channel::joinmember(Server &srv, Clients *newcli)
 {
-    name_ = name;
+	_members.push_back(newcli);
+	boardcast(srv, RPL_JOIN(newcli->getnickname(), _name));
 }
 
-Clients* Channel::getCreator() const
+void	Channel::boardcast(Server &srv, std::string msg)
 {
-    return creator_;
+	std::vector<Clients *>::iterator	it;
+
+	it = _ops.begin();
+	for (; it != _ops.end(); it++)
+		srv.sendmessage(*(*it)->getclient(), msg);
+	it = _members.begin();
+	for (; it != _members.end(); it++)
+		srv.sendmessage(*(*it)->getclient(), msg);
 }
 
-void Channel::setCreator(Clients* creator)
+void	Channel::boardcast(Server &srv, Clients *own, std::string msg)
 {
-    creator_ = creator;
+	std::vector<Clients *>::iterator	it;
+
+	it = _ops.begin();
+	for (; it != _ops.end(); it++)
+	{
+		if ((*it) != own)
+			srv.sendmessage(*(*it)->getclient(), msg);
+	}
+	it = _members.begin();
+	for (; it != _members.end(); it++)
+	{
+		if ((*it) != own)
+			srv.sendmessage(*(*it)->getclient(), msg);
+	}
 }
 
-const std::vector<Clients*>& Channel::getClients() const {
-    return clients_;
-}
 
-void Channel::setClients(const std::vector<Clients*>& clients) {
-    clients_ = clients;
-}
-
-const std::set<Clients*>& Channel::getOperators() const {
-    return operators_;
-}
-
-void Channel::setOperators(const std::set<Clients*>& operators)
+int		Server::newchannel(Clients *cli, std::string name)
 {
-    operators_ = operators;
-}
-
-int Channel::getMaxSize() const
-{
-    return maxSize_;
-}
-
-void Channel::setMaxSize(int maxSize)
-{
-    maxSize_ = maxSize;
+	Channel cnl(name, cli);
+	_channels.insert(std::pair<std::string, Channel>(name, cnl));
+	sendmessage(*cli->getclient(), RPL_JOIN(cli->getnickname(), name));
+	return 1;
 }

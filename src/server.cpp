@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:48 by root              #+#    #+#             */
-/*   Updated: 2023/04/21 19:20:43 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/24 00:21:12 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ Server::Server(int port, std::string pass) : _password(pass)
 	}
 	if (listen(_sock, 5) == -1)
 		exit(EXIT_FAILURE);
-	ops = getops();
+	_ops = getops();
 	commands = Messages::fillcommands();
 	_socks.push_back((pollfd){_sock, POLLIN | POLLOUT, POLLIN | POLLOUT});
 	std::cout << "Server running on port:" << port << std::endl;
@@ -141,7 +141,7 @@ std::vector<std::string>	Server::parsemessage(struct pollfd &sock, char *buffer)
 	return ret;
 }
 
-int	Server::messageexecuter(struct pollfd &sock, std::vector<std::string> token)
+int		Server::messageexecuter(struct pollfd &sock, std::vector<std::string> token)
 {
 	std::map<std::string, int(*)(struct pollfd,  Server &, std::vector<std::string>)>::iterator	it;
 	it = commands.find(token[0]);
@@ -184,6 +184,7 @@ void	Server::sendmessage(struct pollfd &sock, std::string str)
 		std::cout << "A connection is down" << std::endl;
 		removesock(sock);
 	}
+	std::cout << std::endl << "Send message : " << str;
 }
 
 void	Server::removesock(struct pollfd &sock)
@@ -199,7 +200,7 @@ void	Server::removesock(struct pollfd &sock)
 bool	Server::isop(std::string name)
 {
 	std::vector<std::string>::iterator it;
-	for (it = ops.begin(); it != ops.end(); it++)
+	for (it = _ops.begin(); it != _ops.end(); it++)
 	{
 		if (*it == name)
 			return true;

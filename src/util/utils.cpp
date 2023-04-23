@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 18:53:18 by root              #+#    #+#             */
-/*   Updated: 2023/04/22 18:34:22 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/24 00:57:46 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ std::vector<struct pollfd>::iterator	util::findsocket(std::vector<struct pollfd>
 
 std::map <std::string, int(*)(struct pollfd,  Server &, std::vector<std::string>)> Messages::fillcommands(){
 	std::map <std::string, int(*)(struct pollfd,  Server &, std::vector<std::string>)> ret;
+	ret["JOIN"] = &Messages::join;
 	ret["NICK"] = &Messages::nick;
 	ret["ERROR"] = &Messages::error;
 	ret["PASS"] = &Messages::pass;
@@ -72,7 +73,7 @@ std::vector<std::string>	util::msgCreator(std::string prefix, std::string msg)
 std::vector<std::string>	util::msgCreator(std::string prefix, std::string errcode, std::string msg)
 {
 	std::vector<std::string>	ret;
-	ret.push_back(":irc.kuvarti.com " + errcode);
+	ret.push_back(":ft_irc " + errcode);
 	ret.push_back(prefix);
 	msg = ":" + msg;
 	ret.push_back(msg);

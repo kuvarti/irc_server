@@ -1,48 +1,35 @@
-#ifndef CHANNEL_HPP
-#define CHANNEL_HPP
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   channel.hpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/23 22:42:48 by kuvarti           #+#    #+#             */
+/*   Updated: 2023/04/23 22:42:48 by kuvarti          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <algorithm>
-#include <vector>
-#include <iostream>
+#pragma once
 #include <string>
-#include <set>
-#include <unistd.h>
+#include <vector>
+
 #include "clients.hpp"
+class Server;
 
-class Channel {
+class Channel{
 public:
-    Channel(const std::string& name, const std::string& topic, Clients* creator);
-    ~Channel();
+	Channel(std::string, Clients *);
+	~Channel();
 
-    void joinClient(Clients* client);
-    void leaveClient(Clients* client);
-    void sendMsg(const std::string& message, Clients* sender);
-
-    const std::string& getName() const;
-    void setName(const std::string& name);
-
-    Clients* getCreator() const;
-    void setCreator(Clients* creator);
-
-    const std::vector<Clients*>& getClients() const;
-    void setClients(const std::vector<Clients*>&);
-
-    const std::set<Clients*>& getOperators() const;
-    void setOperators(const std::set<Clients*>& operators);
-
-    int getMaxSize() const;
-    void setMaxSize(int maxSize);
-
-    static Channel* getChannelByName(const std::string& name);
-
+	void	boardcast(Server &, Clients *, std::string);
+	void	joinmember(Server &, Clients *);
 private:
-    static std::vector<Channel> channels;
-    std::string name_;
-    std::string topic_;
-    Clients* creator_;
-    std::vector<Clients*> clients_;
-    std::set<Clients*> operators_;
-    int maxSize_;
-};
+	Clients	*_creator;
+	std::string	_name;
+	std::string	_topic;
+	std::vector<Clients *>	_members;
+	std::vector<Clients *>	_ops;
 
-#endif
+	void	boardcast(Server &, std::string);
+};
