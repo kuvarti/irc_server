@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:53 by root              #+#    #+#             */
-/*   Updated: 2023/04/23 23:46:17 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/24 02:57:45 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ private:
 #define RPL_PRIVMSG(source, target, message)	":" + source + " PRIVMSG " + target + " : " + message
 #define RPL_WHOIS(target, message)				"whois " + target + ":" + message
 #define RPL_JOIN(source, channel)				":" + source + " JOIN :" + channel
+
 
 #define RPL_FILET(source, message)				"FileTransfer : " + source + " wants to sen you a file :" + message
 

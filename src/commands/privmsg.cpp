@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 14:13:00 by kuvarti           #+#    #+#             */
-/*   Updated: 2023/04/24 01:15:31 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/24 01:56:07 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int Messages::privmsg(struct pollfd sock,  Server &srv, std::vector<std::string>
 	{
 		std::map<std::string, Channel>::iterator	it3 = srv.findchannel(token[1]);
 		if (srv.ischannelexists(it3))
-			(*it3).second.boardcast(srv, &*(util::findclient(srv.getclient(), sock)), RPL_PRIVMSG((*it).getnickname(), token[1], util::msgSender(token, 2)));
+			(*it3).second.broadcast(srv, &*(util::findclient(srv.getclient(), sock)), RPL_PRIVMSG((*it).getnickname(), token[1], util::msgSender(token, 2)));
 	}
 	else
 	{

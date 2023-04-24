@@ -22,7 +22,8 @@ public:
 	Channel(std::string, Clients *);
 	~Channel();
 
-	void	boardcast(Server &, Clients *, std::string);
+	void	loadlist(Server &, Clients *);
+	void	broadcast(Server &, Clients *, std::string);
 	void	joinmember(Server &, Clients *);
 private:
 	Clients	*_creator;
@@ -31,5 +32,5 @@ private:
 	std::vector<Clients *>	_members;
 	std::vector<Clients *>	_ops;
 
-	void	boardcast(Server &, std::string);
+	void	broadcast(Server &, std::string);
 };
