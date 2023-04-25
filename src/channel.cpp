@@ -30,10 +30,21 @@ void	Channel::joinmember(Server &srv, Clients *newcli)
 {
 	_members.push_back(newcli);
 	broadcast(srv, RPL_JOIN(newcli->getnickname(), _name));
-	for (std::vector<Clients *>::iterator it = _members.begin(); it != _members.end(); it++)
-		srv.sendmessage(*newcli->getclient(), RPL_JOIN((*it)->getnickname(), _name));
-	for (std::vector<Clients *>::iterator it = _ops.begin(); it != _ops.end(); it++)
-		srv.sendmessage(*newcli->getclient(), RPL_JOIN((*it)->getnickname(), _name));
+}
+
+void	Channel::kickmember(Server &srv, Clients *op, Clients *cli)
+{
+	std::vector<Clients *>::iterator	it = _members.begin();
+	for (; it != _members.end(); it++)
+	{
+		if (*it == cli)
+			break;
+	}
+	if (it != _members.end())
+	{
+		broadcast(srv, RPL_KICK(op->getnickname(), _name, cli->getnickname()));
+		_members.erase(it);
+	}
 }
 
 void	Channel::broadcast(Server &srv, std::string msg)
@@ -52,6 +63,12 @@ void	Channel::broadcast(Server &srv, Clients *own, std::string msg)
 {
 	std::vector<Clients *>::iterator	it;
 
+	if ((std::find(_members.begin(), _members.end(), own) != _members.end())
+		|| (std::find(_ops.begin(), _ops.end(), own) != _ops.end()))
+	{
+		//Messages::error(*own->getclient(), srv, util::msgCreator("ERROR ", ": You're not in that channel."));
+		//return ;
+	}
 	it = _ops.begin();
 	for (; it != _ops.end(); it++)
 	{
@@ -66,11 +83,23 @@ void	Channel::broadcast(Server &srv, Clients *own, std::string msg)
 	}
 }
 
+bool	Channel::isthisop(Clients *cli)
+{
+	std::vector<Clients *>::iterator	it = _ops.begin();
+
+	for (; it != _ops.end(); it++)
+	{
+		if (*it == cli)
+			return 1;
+	}
+	return 0;
+}
 
 int		Server::newchannel(Clients *cli, std::string name)
 {
 	Channel cnl(name, cli);
 	_channels.insert(std::pair<std::string, Channel>(name, cnl));
+	sendmessage(*cli->getclient(), RPL_JOIN(cli->getnickname(), name));
 	sendmessage(*cli->getclient(), RPL_JOIN(cli->getnickname(), name));
 	return 1;
 }
@@ -98,5 +127,4 @@ void	Channel::loadlist(Server &srv, Clients *cli)
 	it = _members.begin();
 	for (; it != _members.end(); it++)
 		srv.sendmessage(*(*cli).getclient(), chnlloadlst(cli, *it, _name));
-	srv.sendmessage(*(*cli).getclient(), ":" + _name + " 315 :End of /WHO list");
 }

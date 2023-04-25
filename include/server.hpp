@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:53 by root              #+#    #+#             */
-/*   Updated: 2023/04/24 02:57:45 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/24 20:20:24 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ class Messages{
 public:
 	static std::map<std::string, int(*)(struct pollfd,  Server &, std::vector<std::string>)> fillcommands();
 
+	static int	kick(struct pollfd,  Server &, std::vector<std::string>);
 	static int	join(struct pollfd,  Server &, std::vector<std::string>);
 	static int	user(struct pollfd,  Server &, std::vector<std::string>);
 	static int	nick(struct pollfd,  Server &, std::vector<std::string>);
@@ -103,7 +104,7 @@ private:
 #define RPL_PRIVMSG(source, target, message)	":" + source + " PRIVMSG " + target + " : " + message
 #define RPL_WHOIS(target, message)				"whois " + target + ":" + message
 #define RPL_JOIN(source, channel)				":" + source + " JOIN :" + channel
-
+#define RPL_KICK(source, channel, target)		":" + source + " KICK " + channel + " " + target + " : OP kicked out."
 
 #define RPL_FILET(source, message)				"FileTransfer : " + source + " wants to sen you a file :" + message
 

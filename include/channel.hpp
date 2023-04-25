@@ -24,7 +24,11 @@ public:
 
 	void	loadlist(Server &, Clients *);
 	void	broadcast(Server &, Clients *, std::string);
+
+	void	kickmember(Server &, Clients *, Clients *);
 	void	joinmember(Server &, Clients *);
+
+	bool	isthisop(Clients *);
 private:
 	Clients	*_creator;
 	std::string	_name;
