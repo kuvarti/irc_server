@@ -26,7 +26,7 @@ public:
 	void	loadlist(Server &, Clients *);
 	void	broadcast(Server &, Clients *, std::string);
 
-	void	kickmember(Server &, Clients *, std::string);
+	void	IRCkickmember(Server &, Clients *);
 	void	kickmember(Server &, Clients *, Clients *);
 	void	joinmember(Server &, Clients *);
 

@@ -56,7 +56,7 @@ void	Channel::kickmember(Server &srv, Clients *op, Clients *cli)
 	}
 }
 
-void	Channel::kickmember(Server &srv, Clients *cli, std::string message)
+void	Channel::IRCkickmember(Server &srv, Clients *cli)
 {
 	std::vector<Clients *>::iterator	it = _members.begin();
 	for (; it != _members.end(); it++)
@@ -69,7 +69,6 @@ void	Channel::kickmember(Server &srv, Clients *cli, std::string message)
 		std::string op = "ircbot";
 		broadcast(srv, RPL_KICK(op, _name, cli->getnickname()));
 		_members.erase(it);
-		(void)message;
 	}
 }
 
