@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ftransfer.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aeryilma <aeryilma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 15:27:55 by kuvarti           #+#    #+#             */
-/*   Updated: 2023/04/22 19:46:06 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/26 16:40:23 by aeryilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ public:
 
 	static std::vector<filet *>::iterator	filetfinder(std::vector<filet *> &, Clients *, std::string);
 private:
-	int	status;
 	std::fstream	*_file;
 
 	Clients *	source;

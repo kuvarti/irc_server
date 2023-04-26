@@ -6,7 +6,7 @@ ifeq ($(shell uname), Darwin)
 else
 	CC		= c++ -g
 endif
-CFLAGS	= # -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror
 INCLUDE	= -Iinclude/
 
 SRC		= $(shell find src -name "*.cpp")

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aeryilma <aeryilma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:48 by root              #+#    #+#             */
-/*   Updated: 2023/04/24 00:21:12 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/26 16:40:59 by aeryilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <stdlib.h>
 #include <iostream>
 
-//*	Can be delete this \/ \/
 void	debugparsing(std::vector<std::string> str)
 {
 	std::cout << std::endl;
@@ -34,7 +33,6 @@ void	showclients(std::vector<Clients> &cli )
 		std::cout << "*- none -*" << std::endl;
 	std::cout << "------- "<< "Clients & Port are listening..." << " ------" << std::endl;
 }
-//*	Can be delete this /\ /\
 
 Server::Server(int port, std::string pass) : _password(pass)
 {

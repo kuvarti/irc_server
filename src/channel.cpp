@@ -31,7 +31,7 @@ Channel::~Channel()
 
 void	Channel::joinmember(Server &srv, Clients *newcli)
 {
-	if (_members.size() == maxmember)
+	if (_members.size() == (unsigned long)maxmember)
 	{
 		srv.sendmessage(*newcli->getclient(), "Channel Reach the ma member size!");
 		return ;
@@ -69,6 +69,7 @@ void	Channel::kickmember(Server &srv, Clients *cli, std::string message)
 		std::string op = "ircbot";
 		broadcast(srv, RPL_KICK(op, _name, cli->getnickname()));
 		_members.erase(it);
+		(void)message;
 	}
 }
 
