@@ -6,7 +6,7 @@
 /*   By: kuvarti <kuvarti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:53 by root              #+#    #+#             */
-/*   Updated: 2023/04/24 20:20:24 by kuvarti          ###   ########.fr       */
+/*   Updated: 2023/04/26 14:32:46 by kuvarti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 
 #define BSIZE 512
 #define DEBUGMOD 1
-class Channel;
 class Server;
 
 std::vector<std::string> getops();
@@ -105,6 +104,7 @@ private:
 #define RPL_WHOIS(target, message)				"whois " + target + ":" + message
 #define RPL_JOIN(source, channel)				":" + source + " JOIN :" + channel
 #define RPL_KICK(source, channel, target)		":" + source + " KICK " + channel + " " + target + " : OP kicked out."
+#define RPL_IRCKICK(channel, target, message)	":ircbot KICK " + channel + " " + target + " : " + message
 
 #define RPL_FILET(source, message)				"FileTransfer : " + source + " wants to sen you a file :" + message
 

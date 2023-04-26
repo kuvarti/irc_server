@@ -21,15 +21,24 @@ Channel::Channel(std::string name, Clients *creator)
 	_ops.push_back(creator);
 	_name = name;
 	_topic = "Takling about " + name;
+	maxmember = 20;
+	bot = new ircbot(*this);
 }
 
 Channel::~Channel()
-{ }
+{
+}
 
 void	Channel::joinmember(Server &srv, Clients *newcli)
 {
+	if (_members.size() == maxmember)
+	{
+		srv.sendmessage(*newcli->getclient(), "Channel Reach the ma member size!");
+		return ;
+	}
 	_members.push_back(newcli);
 	broadcast(srv, RPL_JOIN(newcli->getnickname(), _name));
+	bot->wellcome(srv, newcli);
 }
 
 void	Channel::kickmember(Server &srv, Clients *op, Clients *cli)
@@ -43,6 +52,22 @@ void	Channel::kickmember(Server &srv, Clients *op, Clients *cli)
 	if (it != _members.end())
 	{
 		broadcast(srv, RPL_KICK(op->getnickname(), _name, cli->getnickname()));
+		_members.erase(it);
+	}
+}
+
+void	Channel::kickmember(Server &srv, Clients *cli, std::string message)
+{
+	std::vector<Clients *>::iterator	it = _members.begin();
+	for (; it != _members.end(); it++)
+	{
+		if (*it == cli)
+			break;
+	}
+	if (it != _members.end())
+	{
+		std::string op = "ircbot";
+		broadcast(srv, RPL_KICK(op, _name, cli->getnickname()));
 		_members.erase(it);
 	}
 }
@@ -63,12 +88,6 @@ void	Channel::broadcast(Server &srv, Clients *own, std::string msg)
 {
 	std::vector<Clients *>::iterator	it;
 
-	if ((std::find(_members.begin(), _members.end(), own) != _members.end())
-		|| (std::find(_ops.begin(), _ops.end(), own) != _ops.end()))
-	{
-		//Messages::error(*own->getclient(), srv, util::msgCreator("ERROR ", ": You're not in that channel."));
-		//return ;
-	}
 	it = _ops.begin();
 	for (; it != _ops.end(); it++)
 	{
@@ -81,6 +100,7 @@ void	Channel::broadcast(Server &srv, Clients *own, std::string msg)
 		if ((*it) != own)
 			srv.sendmessage(*(*it)->getclient(), msg);
 	}
+	bot->checkmsg(srv, own, msg);
 }
 
 bool	Channel::isthisop(Clients *cli)
@@ -100,7 +120,7 @@ int		Server::newchannel(Clients *cli, std::string name)
 	Channel cnl(name, cli);
 	_channels.insert(std::pair<std::string, Channel>(name, cnl));
 	sendmessage(*cli->getclient(), RPL_JOIN(cli->getnickname(), name));
-	sendmessage(*cli->getclient(), RPL_JOIN(cli->getnickname(), name));
+	cnl.getbot().wellcome(*this, cli);
 	return 1;
 }
 

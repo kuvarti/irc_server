@@ -14,6 +14,7 @@
 #include <string>
 #include <vector>
 
+#include "ircbot.hpp"
 #include "clients.hpp"
 class Server;
 
@@ -25,11 +26,17 @@ public:
 	void	loadlist(Server &, Clients *);
 	void	broadcast(Server &, Clients *, std::string);
 
+	void	kickmember(Server &, Clients *, std::string);
 	void	kickmember(Server &, Clients *, Clients *);
 	void	joinmember(Server &, Clients *);
 
 	bool	isthisop(Clients *);
+
+	ircbot	&getbot() { return *bot; }
+	std::string	getname() const { return _name; }
 private:
+	ircbot	*bot;
+	int	maxmember;
 	Clients	*_creator;
 	std::string	_name;
 	std::string	_topic;
